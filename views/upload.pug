@@ -1,12 +1,10 @@
 extends layout
 
 block content
-  - const contStyle = `padding: 40px; border: 1px solid #000; margin: 0 auto; max-width: 600px`
   - const formStyle = `display: flex; flex-direction: column`
   - const marg = `margin: 10px 0`
   
-  .upload(style=contStyle)
-    form(action='/upload', method='POST', enctype='multipart/form-data' style=formStyle)
-      input(type='file' id="photo" name='photo' accept='image/png image/jpeg' required style=marg)
-      textarea(name='caption', placeholder='Write a caption...', maxlength='140' style=marg)
-      input(type='submit', value='Share' style=marg)
+  form(action='/upload', method='POST', enctype='multipart/form-data' style=formStyle)
+    input(type='file' id="photo" name='photo' accept='image/png image/jpeg' required style=marg)
+    textarea(name='caption', placeholder='Write a caption...', maxlength='140' style=marg)
+    input(type='submit', value='Share' style=marg)

@@ -9,7 +9,7 @@ exports.showProfile = async (req, res) => {
   const images = await Image.find({ author: profile._id })
     .sort({ created: 'desc' })
     .limit(12)
-    // .populate('comments');
+    .populate('comments');
 
   res.json({profile, images})
 }

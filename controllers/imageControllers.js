@@ -2,7 +2,6 @@ const multer = require('multer');
 const jimp = require('jimp');
 const crypto = require('crypto');
 
-const User = require('../models/User');
 const Image = require('../models/Image');
 
 
@@ -30,10 +29,10 @@ exports.resize = async (req, res, next) => {
   // resize
   const photo = await jimp.read(req.file.buffer);
   await photo.resize(600, jimp.AUTO).quality(70);
-  await photo.write(`./uploads/gallery/${req.body.photo}`);
+  await photo.write(`./public/uploads/gallery/${req.body.photo}`);
 
   await photo.cover(290, 290, jimp.HORIZONTAL_ALIGN_CENTER | jimp.VERTICAL_ALIGN_MIDDLE);
-  await photo.write(`./uploads/thumbs/${req.body.photo}`);
+  await photo.write(`./public/uploads/thumbs/${req.body.photo}`);
 
   next();
 }
@@ -45,4 +44,12 @@ exports.saveImage = async (req, res) => {
   console.log('You have shared a new image')
 
   res.redirect(`back`);
+}
+
+exports.showImage = async (req, res) => {
+  const image = await Image.findOne({ url: req.params.image }).populate('author comments')
+
+  if (!image) return res.json({message: 'no existe'})
+
+  res.render('image', { title: image.caption, image });
 }

@@ -10,28 +10,44 @@ const { catchErrors, isLoggedIn } = require('./handlers/helpers')
 
 // Home
 router.get('/', (req, res) => {
-  const message = {message: "please login. Go to /login"}
-  res.json(!req.user ? message : req.user)
+  const error = { message: "Please login. Go to /login"}
+  const success = { message: `Hi ${req.user && req.user.name}. If you want to see your profile go to /u/${req.user && req.user.username} `}
+
+  res.json(!req.user ? error : success)
 });
 
-// auth
+// Login/Logut
 router.get('/login', auth.login)
 router.get('/gh', auth.authenticate)
 router.get('/logout', auth.logout)
 
-// User
+// Show Profile
 router.get('/u/:username', catchErrors(user.showProfile))
 
-// Image
+// Upload Image
 router.get('/upload',
   isLoggedIn,
   (req, res) => { res.render('upload', {title: 'upload'}) }
 )
-router.post('/upload', 
+router.post('/upload',
   isLoggedIn,
   img.upload,
   catchErrors(img.resize),
   catchErrors(img.saveImage)
 )
+// Show Image
+router.get('/p/:image', catchErrors(img.showImage))
+
+
+// Add comment
+router.post('/c/:image',
+  catchErrors(comment.addComment)
+);
+
+// Remove comment
+router.get('/c/:id/remove',
+  catchErrors(comment.removeComment)
+);
+
 
 module.exports = router;

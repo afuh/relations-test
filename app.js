@@ -1,4 +1,6 @@
 /* eslint-disable no-console */
+require('dotenv').config({path: 'variables.env'});
+
 const express = require('express');
 const bodyParser = require('body-parser');
 const mongoose = require('mongoose');
@@ -8,13 +10,11 @@ const path = require('path');
 const MongoStore = require('connect-mongo')(session);
 
 const app = express();
-const routes = require('./routes');
+const routes = require('./routes')
 
 require('./handlers/passport.js');
-require('dotenv').config({path: 'variables.env'});
 
-mongoose.connect(process.env.DATABASE, {
-  useMongoClient: true});
+mongoose.connect(process.env.DATABASE, { useMongoClient: true});
 mongoose.Promise = global.Promise
 
 mongoose.connection.on('error', (err) => {
@@ -23,6 +23,8 @@ mongoose.connection.on('error', (err) => {
 
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'pug');
+
+app.use(express.static(path.join(__dirname, 'public')));
 
 app.use(session({
   secret: "evil morty",
@@ -33,6 +35,12 @@ app.use(session({
 
 app.use(passport.initialize());
 app.use(passport.session());
+
+app.use((req, res, next) => {
+  res.locals.user = req.user || null;
+  res.locals.show = obj => JSON.stringify(obj, null, 2);
+  next();
+});
 
 app.use(bodyParser.urlencoded({extended: true}));
 app.use(bodyParser.json());

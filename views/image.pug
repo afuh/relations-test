@@ -1,0 +1,26 @@
+extends layout
+
+block content
+  - const userStyle = "display: flex; align-items: center;"
+  - const inputStyle = "width: 100%; height: 40px; border: 0; border-bottom: 2px solid green"
+  - const avatarStyle = 'border-radius: 50%; width: 50px; height: 50px'
+  - const commentStyle = userStyle + "border-bottom: 1px solid #efefef; justify-content: space-between;"
+  
+  .cont(style=userStyle)
+    a(href=`/u/${image.author.username}`)
+      img(src=image.author.avatar_url style=avatarStyle)
+    a(href=`/u/${image.author.username}`)= image.author.name
+  img(src=`/uploads/gallery/${image.photo}`)
+  if image.comments.length
+    ul(style="padding-left: 0")
+      each comment in image.comments
+        li(style=commentStyle)
+          a(href=`/u/${comment.author.username}`)= comment.author.name
+          p= comment.text
+          if user && user._id == comment.author._id
+            a.remove-comment(href=`/c/${comment._id}/remove`) ✕  
+  if user
+    form(action=`/c/${image._id}`, method="POST")
+      input(name="text", placeholder="Add a comment...", autocomplete="off" maxlength="140" style=inputStyle)
+
+    
