@@ -4,6 +4,8 @@ const bodyParser = require('body-parser');
 const mongoose = require('mongoose');
 const session = require('express-session');
 const passport = require('passport')
+const path = require('path');
+const MongoStore = require('connect-mongo')(session);
 
 const app = express();
 const routes = require('./routes');
@@ -12,15 +14,22 @@ require('./handlers/passport.js');
 require('dotenv').config({path: 'variables.env'});
 
 mongoose.connect(process.env.DATABASE, {
-  useMongoClient: true,
-  promiseLibary: global.Promise
-});
+  useMongoClient: true});
+mongoose.Promise = global.Promise
 
 mongoose.connection.on('error', (err) => {
   console.error(`🚫 → ${err.message}`);
 });
 
-app.use(session({ secret: "evil morty", resave: false, saveUninitialized: false }));
+app.set('views', path.join(__dirname, 'views'));
+app.set('view engine', 'pug');
+
+app.use(session({
+  secret: "evil morty",
+  resave: false,
+  saveUninitialized: false,
+  store: new MongoStore({ mongooseConnection: mongoose.connection })
+}));
 
 app.use(passport.initialize());
 app.use(passport.session());
