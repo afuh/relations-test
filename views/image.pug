@@ -7,15 +7,21 @@ block content
   - const commentStyle = userStyle + "border-bottom: 1px solid #efefef; justify-content: space-between;"
   
   .cont(style=userStyle)
-    a(href=`/u/${image.author.username}`)
+    a(href=`/${image.author.username}`)
       img(src=image.author.avatar_url style=avatarStyle)
-    a(href=`/u/${image.author.username}`)= image.author.name
+    a(href=`/${image.author.username}`)= image.author.name
   img(src=`/uploads/gallery/${image.photo}`)
+  if image.categories.length
+    ul
+      each cat in image.categories
+        li
+          a(href=`/category/${cat}`)= cat
+  p(style="text-align: right; font-style: italic;")= image.caption
   if image.comments.length
     ul(style="padding-left: 0")
       each comment in image.comments
         li(style=commentStyle)
-          a(href=`/u/${comment.author.username}`)= comment.author.name
+          a(href=`/${comment.author.username}`)= comment.author.name
           p= comment.text
           if user && user._id == comment.author._id
             a.remove-comment(href=`/c/${comment._id}/remove`) ✕  

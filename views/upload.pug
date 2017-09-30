@@ -3,8 +3,13 @@ extends layout
 block content
   - const formStyle = `display: flex; flex-direction: column`
   - const marg = `margin: 10px 0`
+  - const categoryStyle = "padding-left: 0; display: flex; justify-content: space-around; width: 70%; margin: 10px auto"
   
   form(action='/upload', method='POST', enctype='multipart/form-data' style=formStyle)
     input(type='file' id="photo" name='photo' accept='image/png image/jpeg' required style=marg)
     textarea(name='caption', placeholder='Write a caption...', maxlength='140' style=marg)
+    ul(style=categoryStyle)
+      each category in h.categories
+        input(type="checkbox" id=category value=category name="categories")
+        label(for=category) #{category}
     input(type='submit', value='Share' style=marg)

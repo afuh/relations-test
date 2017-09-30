@@ -4,6 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
+    "ui": "nodemon app.js UI",
     "start": "nodemon app.js"
   },
   "engines": {

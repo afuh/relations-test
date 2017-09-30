@@ -1,0 +1,4 @@
+mixin gallery(image = {})
+  a.gallery__img(href=`/p/${image.url}`)
+    img(src=`/uploads/thumbs/${image.photo}` alt=`${image.caption}`)
+    p #{image.comments.length} comments

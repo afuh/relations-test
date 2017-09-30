@@ -1,0 +1,20 @@
+extends layout
+include _gallery
+
+block content
+  - const row = "display: flex; justify-content: center; align-items: center;"
+  - const col = "display: flex; flex-direction: column; align-items: center;"
+  - const avatarStyle = 'border-radius: 50%;'
+  .info(style=col)
+    .img
+      img(src=profile.avatar_url style=avatarStyle)
+    .name(style=row)
+      h1= profile.name
+      h3= profile.username
+    .social(style=row)
+      a(href=profile.github_url, target="_blank") Github profile
+      a(href=`http://${profile.website}`, target="_blank") Personal website
+    p posts #{images.length}
+  .gallery
+    each image in images  
+      +gallery(image)

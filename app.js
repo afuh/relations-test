@@ -11,6 +11,7 @@ const MongoStore = require('connect-mongo')(session);
 
 const app = express();
 const routes = require('./routes')
+const helpers = require('./handlers/helpers')
 
 require('./handlers/passport.js');
 
@@ -38,7 +39,7 @@ app.use(passport.session());
 
 app.use((req, res, next) => {
   res.locals.user = req.user || null;
-  res.locals.show = obj => JSON.stringify(obj, null, 2);
+  res.locals.h = helpers;
   next();
 });
 

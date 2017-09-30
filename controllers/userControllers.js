@@ -1,6 +1,8 @@
 const User = require('../models/User');
 const Image = require('../models/Image');
 
+const { ui } = require('../handlers/helpers')
+
 exports.showProfile = async (req, res) => {
   const profile = await User.findOne({ username: req.params.username })
 
@@ -11,5 +13,10 @@ exports.showProfile = async (req, res) => {
     .limit(12)
     .populate('comments');
 
-  res.json({profile, images})
+  if (ui) {
+    res.render('profile', { title: profile.username, images, profile });
+  }
+  else {
+    res.json({profile, images})
+  }
 }

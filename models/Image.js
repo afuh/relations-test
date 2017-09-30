@@ -20,6 +20,7 @@ const imageSchema = new mongoose.Schema({
     ref: 'User',
     required: true
   },
+  categories: [String]
 }, {
   toJSON: { virtuals: true }
 });
@@ -34,5 +35,13 @@ imageSchema.virtual('comments', {
   localField: '_id',
   foreignField: 'image'
 });
+
+imageSchema.statics.getCategoriesList = function() {
+  return this.aggregate([
+    { $unwind: '$categories' },
+    { $group: { _id: '$categories', count: { $sum: 1 } } },
+    { $sort: { count: -1 }}
+  ]);
+}
 
 module.exports = mongoose.model('Image', imageSchema);

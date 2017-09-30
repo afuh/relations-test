@@ -1,7 +1,9 @@
 # test relationships
 
-
 - register: `/login`
-- userpage: `/u/:username`
+- logout: `/logout`
+- userpage: `/:username`
 - upload: `/upload`
-- view an image: `/p/:image`
+- view an image: `/p/:image-url`
+- All categories: `/category`
+- Search images by a specific category: `/category/:name`
