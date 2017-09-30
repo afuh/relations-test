@@ -16,17 +16,20 @@ const helpers = require('./handlers/helpers')
 require('./handlers/passport.js');
 
 mongoose.connect(process.env.DATABASE, { useMongoClient: true});
-mongoose.Promise = global.Promise
+mongoose.Promise = global.Promise;
 
 mongoose.connection.on('error', (err) => {
   console.error(`🚫 → ${err.message}`);
 });
 
+// view engine setup
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'pug');
 
 app.use(express.static(path.join(__dirname, 'public')));
 
+// Sessions allow us to store data on visitors from request to request
+// This keeps users logged in and allows us to send flash messages (if we use them)
 app.use(session({
   secret: "evil morty",
   resave: false,
@@ -34,9 +37,11 @@ app.use(session({
   store: new MongoStore({ mongooseConnection: mongoose.connection })
 }));
 
+// Passport JS is what we use to handle our logins
 app.use(passport.initialize());
 app.use(passport.session());
 
+// We need this middlewear to use variables in our views
 app.use((req, res, next) => {
   res.locals.user = req.user || null;
   res.locals.h = helpers;
@@ -48,10 +53,6 @@ app.use(bodyParser.json());
 
 app.use('/', routes);
 
-app.use((req, res) => {
-  res.status(404).send({
-    url: req.originalUrl + ' not found'
-  })
-});
+app.use(helpers.notFound);
 
 app.listen(process.env.PORT, () => console.log('\x1b[33m%s\x1b[0m', `Express running → PORT ${process.env.PORT}`))

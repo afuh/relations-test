@@ -25,7 +25,7 @@ router.get('/logout', auth.logout)
 // Upload Image
 router.get('/upload',
   isLoggedIn,
-  (req, res) => { res.render('upload', {title: 'upload'}) }
+  img.showForm
 )
 router.post('/upload',
   isLoggedIn,
@@ -34,26 +34,26 @@ router.post('/upload',
   catchErrors(img.saveImage)
 )
 
-// Get category
+// Category
 router.get('/category/', catchErrors(category.getCategories))
 router.get('/category/:name', catchErrors(category.getCategory))
 
 // Show Profile
 router.get('/:username', catchErrors(user.showProfile))
 
-
 // Show Image
 router.get('/p/:image', catchErrors(img.showImage))
 
-
 // Add comment
 router.post('/c/:image',
+  isLoggedIn,
   catchErrors(comment.addComment)
 );
 
 // Remove comment
-router.get('/c/:id/remove', catchErrors(comment.removeComment));
-
-
+router.get('/c/:id',
+  isLoggedIn,
+  catchErrors(comment.removeComment)
+);
 
 module.exports = router;

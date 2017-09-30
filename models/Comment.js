@@ -21,11 +21,11 @@ const commentSchema = new mongoose.Schema({
   }
 });
 
+// Everytime I query for a comment with '.find()' or '.findOne()' please populate the author.
 function autopopulate(next) {
   this.populate('author');
   next();
 }
-
 commentSchema.pre('find', autopopulate);
 commentSchema.pre('findOne', autopopulate);
 

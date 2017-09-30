@@ -1,7 +1,7 @@
 const mongoose = require('mongoose');
 const findOrCreate = require('mongoose-findorcreate')
 
-// Fetched from GH
+// This Model will be populated by GitHub
 const userSchema = new mongoose.Schema({
   name: String,
   username: String,
@@ -14,6 +14,8 @@ const userSchema = new mongoose.Schema({
   }
 });
 
+// findOrCreate() method plugin to use it with the Passport
+// http://mongoosejs.com/docs/plugins.html
 userSchema.plugin(findOrCreate);
 
 module.exports = mongoose.model('User', userSchema);

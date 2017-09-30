@@ -1,5 +1,7 @@
 require('dotenv').config({path: 'variables.env'});
 
+// Passport set up
+
 const passport = require('passport');
 const { site } = require('./helpers');
 
