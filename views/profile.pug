@@ -2,19 +2,19 @@ extends layout
 include _gallery
 
 block content
-  - const row = "display: flex; justify-content: center; align-items: center;"
-  - const col = "display: flex; flex-direction: column; align-items: center;"
-  - const avatarStyle = 'border-radius: 50%;'
-  .info(style=col)
-    .img
+  - const avatarStyle = 'border-radius: 50%; width: 50%'
+  - const margin = "margin: 6px"
+  
+  .info.col.centrate
+    .img.row.centrate
       img(src=profile.avatar_url style=avatarStyle)
-    .name(style=row)
-      h1= profile.name
-      h3= profile.username
-    .social(style=row)
-      a(href=profile.github_url, target="_blank") Github profile
-      a(href=`http://${profile.website}`, target="_blank") Personal website
+    .name.col.centrate
+      h1(style=`${margin}; font-size: 44px`)= !profile.name ? profile.username : profile.name
+    .social.row.centrate
+      a(href=profile.github_url, target="_blank" style=margin) Github profile
+      if profile.website.length
+        a(href=`http://${profile.website}`, target="_blank" style=margin) Personal website
     p posts #{images.length}
-  .gallery
+  .gallery.row.centrate(style="flex-wrap: wrap")
     each image in images  
       +gallery(image)

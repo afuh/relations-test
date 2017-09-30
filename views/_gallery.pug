@@ -1,4 +1,5 @@
-mixin gallery(image = {})
-  a.gallery__img(href=`/p/${image.url}`)
+mixin gallery(image = {})  
+  a.cover(href=`/p/${image.url}`)
     img(src=`/uploads/thumbs/${image.photo}` alt=`${image.caption}`)
-    p #{image.comments.length} comments
+    #overlay
+      p(style="color: white") #{image.comments.length} comments

@@ -43,15 +43,6 @@ imageSchema.statics.getCategoriesList = function() {
   ]);
 }
 
-// Before we save the model to the DB, striptags is going to strip any HTML tags from the string.
-// We use .pre() to define this method
-// http://mongoosejs.com/docs/api.html#schema_Schema-pre
-// Again, don't use Arrow Functions because we need the 'this' keyword
-imageSchema.pre('save', function(next){
-  this.caption = striptags(this.caption);
-  next();
-});
-
 // "Virtuals are document properties that you can get and set but that do not get persisted to MongoDB."
 // http://mongoosejs.com/docs/guide.html#virtuals
 // In this case I'm making a virtual conection between our Image model and the Image field in the Comment model.
@@ -61,6 +52,15 @@ imageSchema.virtual('comments', {
   foreignField: 'image' // which field on the Comment schema?
 });
 
+
+// Before we save the model to the DB, striptags is going to strip any HTML tags from the string.
+// We use .pre() to define this method
+// http://mongoosejs.com/docs/api.html#schema_Schema-pre
+// Again, don't use Arrow Functions because we need the 'this' keyword
+imageSchema.pre('save', function(next){
+  this.caption = striptags(this.caption);
+  next();
+});
 
 
 module.exports = mongoose.model('Image', imageSchema);

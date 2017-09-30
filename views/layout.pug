@@ -3,9 +3,8 @@ html
   head
     title= title
     meta(name="viewport" content="width=device-width, initial-scale=1")
-  body
-    - const sectionStyle = `padding: 40px; border: 1px solid #000; margin: 0 auto; max-width: 600px`
-  
-    section(style=sectionStyle)
+    link(rel='stylesheet', href='/styles.css')
+  body  
+    section
       block content
     
