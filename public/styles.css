@@ -25,6 +25,14 @@ img {
   display: block;
 }
 
+nav ul {
+  justify-content: flex-end;
+}
+
+nav ul li {
+  margin-left: 20px
+}
+
 a {
   color: #ffa500;
 }
@@ -138,4 +146,34 @@ a.cover {
   display: flex;
   justify-content: center;
   align-items: center;
+}
+
+h2.category_title {
+  text-align: center;
+  margin: 0 0 40px 0;
+}
+
+.categories {
+  justify-content: space-around;
+  margin-bottom: 40px
+}
+
+.categories li a {
+  padding: 10px;
+  background: whitesmoke;
+  text-transform: uppercase;
+  box-shadow: 0 2px 2px 0 rgba(0,0,0,0.16), 0 0 0 1px rgba(0,0,0,0.08)
+
+}
+
+.categories li a span {
+  margin: 0 4px
+}
+
+.categories li a span:last-child {
+  color: #333;
+}
+
+.categories .category_active {
+  box-shadow: 0 8px 8px 0 rgba(0,0,0,0.16), 0 0 0 1px;
 }

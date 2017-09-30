@@ -1,0 +1,17 @@
+extends layout
+include _gallery
+
+block content
+  h2.category_title #{category && category.toUpperCase() || 'CATEGORIES'}
+  ul.categories.row
+    each cat in categories
+      li
+        a(href=`/category/${cat._id}` class=(cat._id === category ? 'category_active' : ""))
+          span= cat._id 
+          span= cat.count
+  
+  .images
+    if category
+      .gallery.row.centrate(style="flex-wrap: wrap")  
+        each image in images
+            +gallery(image)

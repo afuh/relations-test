@@ -5,5 +5,4 @@
 - userpage: `/:username`
 - upload: `/upload`
 - view an image: `/p/:image-url`
-- All categories: `/category`
-- Search images by a specific category: `/category/:name`
+- Categories: `/category`

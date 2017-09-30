@@ -2,6 +2,7 @@ const multer = require('multer');
 const jimp = require('jimp');
 const crypto = require('crypto');
 
+const { ui } = require('../handlers/helpers')
 const Image = require('../models/Image');
 
 exports.showForm = (req, res) => {
@@ -62,5 +63,10 @@ exports.showImage = async (req, res) => {
 
   if (!image) return res.json({message: 'not found'})
 
-  res.render('image', { title: image.caption, image });
+  if (ui) {
+    res.render('image', { title: image.caption, image });
+  }
+  else {
+    res.json({image})
+  }
 }

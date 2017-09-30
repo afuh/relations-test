@@ -4,7 +4,18 @@ html
     title= title
     meta(name="viewport" content="width=device-width, initial-scale=1")
     link(rel='stylesheet', href='/styles.css')
-  body  
+  body
+    nav
+      if user
+        ul.row
+          li
+            a(href="/upload") Share an image
+          li
+            a(href="/category") Categories
+          li
+            a(href=`/${user.username}`)= user.name
+          li  
+            a(href="/logout") Logout
     section
       block content
     

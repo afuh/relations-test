@@ -1,7 +1,7 @@
 const User = require('../models/User');
 const Image = require('../models/Image');
 
-const { ui } = require('../handlers/helpers')
+const { ui, site } = require('../handlers/helpers')
 
 exports.showProfile = async (req, res) => {
   const profile = await User.findOne({ username: req.params.username })
@@ -18,5 +18,22 @@ exports.showProfile = async (req, res) => {
   }
   else {
     res.json({profile, images})
+  }
+}
+
+exports.showProfiles = async (req, res) => {
+  const profiles = await User.find().sort({ created: 'desc' }).limit(12)
+
+  const error = { message: "Please login. Go to /login"}
+  const success = {
+    message: `Hi ${req.user && req.user.name}. If you want to see your profile go to /${req.user && req.user.username} `,
+    users: profiles.map(p => `${site}/${p.username}`)
+  }
+
+  if (ui) {
+    res.render('home', { title: 'Home', profiles, success });
+  }
+  else {
+    res.json(!req.user ? error : success)
   }
 }

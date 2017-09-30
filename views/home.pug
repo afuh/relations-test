@@ -1,0 +1,15 @@
+extends layout
+
+block content
+  if user
+    h2 Hi #{user.name ? user.name : user.username} 
+    p If you want to see you profile click 
+      a(href=`/${user.username}`) here
+    p Here is a list of all the users
+    ul
+      each profile in profiles
+        li
+          a(href=`/${profile.username}`)= profile.name
+  if !user
+    h2 
+      a(href="/login") Login  

@@ -9,13 +9,6 @@ const category = require('./controllers/categoryControllers');
 
 const { catchErrors, isLoggedIn } = require('./handlers/helpers')
 
-// Home
-router.get('/', (req, res) => {
-  const error = { message: "Please login. Go to /login"}
-  const success = { message: `Hi ${req.user && req.user.name}. If you want to see your profile go to /${req.user && req.user.username} `}
-
-  res.json(!req.user ? error : success)
-});
 
 // Login/Logut
 router.get('/login', auth.login)
@@ -35,11 +28,12 @@ router.post('/upload',
 )
 
 // Category
-router.get('/category/', catchErrors(category.getCategories))
+router.get('/category/', catchErrors(category.getCategory))
 router.get('/category/:name', catchErrors(category.getCategory))
 
 // Show Profile
 router.get('/:username', catchErrors(user.showProfile))
+router.get('/', catchErrors(user.showProfiles))
 
 // Show Image
 router.get('/p/:image', catchErrors(img.showImage))
