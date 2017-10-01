@@ -23,6 +23,6 @@ run `npm start` or `npm run ui`
 
 The **Image schema** can receive an array of categories selected by the user and managed by the method `.getCategoriesList()` which has been added as a static method to the image schema.
 
-The **Comment model** is referenced as a virtual property in the **Image schema**, therefore it won't show up 'inside' the Image model in de database.
+The **Comment model** is referenced as a virtual property in the **Image schema**, therefore it won't show up 'inside' the Image model in the database.
 
 *All the references are populated*
