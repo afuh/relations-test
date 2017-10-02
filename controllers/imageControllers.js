@@ -57,7 +57,7 @@ exports.saveImage = async (req, res) => {
 
 // Both References (author) and Virtuals (comments) need to be
 // populated, otherwise we won't see them.
-// We can populate a filed in the controller define a default "pre populated" method direct in the model.
+// We can populate a field in the controller, or define a default "pre populated" method direct in the model.
 exports.showImage = async (req, res) => {
   const image = await Image.findOne({ url: req.params.image }).populate('author comments')
 
