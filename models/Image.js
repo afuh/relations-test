@@ -39,9 +39,9 @@ imageSchema.statics.getCategoriesList = function() {
   return this.aggregate([
     // create an instance of the image for every category that it owns.
     { $unwind: '$categories' },
-    // agroup by categorie and for each one add 1 to the count properie.
+    // group by categorie and for each instance add 1 to the property 'count'
     { $group: { _id: '$categories', count: { $sum: 1 } } },
-    // sort the categories descending (-1) by the count propery 
+    // sort the categories descending (-1) by the count property 
     { $sort: { count: -1 }}
   ]);
 }
