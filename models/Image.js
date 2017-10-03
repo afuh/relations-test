@@ -37,8 +37,11 @@ imageSchema.statics.getCategoriesList = function() {
   // https://docs.mongodb.com/manual/aggregation/)
   // https://docs.mongodb.com/manual/reference/operator/aggregation/
   return this.aggregate([
+    // create an instance of the image for every category that it owns.
     { $unwind: '$categories' },
+    // agroup by categorie and for each one add 1 to the count properie.
     { $group: { _id: '$categories', count: { $sum: 1 } } },
+    // sort the categories descending (-1) by the count propery 
     { $sort: { count: -1 }}
   ]);
 }
