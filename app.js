@@ -8,6 +8,7 @@ const session = require('express-session');
 const passport = require('passport')
 const path = require('path');
 const MongoStore = require('connect-mongo')(session);
+const mongodbErrorHandler = require('mongoose-mongodb-errors')
 
 const app = express();
 const routes = require('./routes')
@@ -21,6 +22,8 @@ mongoose.Promise = global.Promise;
 mongoose.connection.on('error', (err) => {
   console.error(`🚫 → ${err.message}`);
 });
+
+mongoose.plugin(mongodbErrorHandler);
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
@@ -48,11 +51,18 @@ app.use((req, res, next) => {
   next();
 });
 
+// Takes the raw requests and turns them into usable properties on req.body
 app.use(bodyParser.urlencoded({extended: true}));
 app.use(bodyParser.json());
 
 app.use('/', routes);
 
 app.use(helpers.notFound);
+
+if (app.get('env') === 'development') {
+  app.use(helpers.developmentErrors);
+}
+
+app.use(helpers.productionErrors);
 
 app.listen(process.env.PORT, () => console.log('\x1b[33m%s\x1b[0m', `Express running → PORT ${process.env.PORT}`))
